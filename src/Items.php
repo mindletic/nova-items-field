@@ -26,26 +26,9 @@ class Items extends Field
     {
         parent::resolve($resource, $attribute);
 
-        $this->fillUsing(function($request, $model, $attribute, $requestAttribute) {
+        $this->fillUsing(function ($request, $model, $attribute, $requestAttribute) {
             $model->$attribute = $this->isNullValue($request->$attribute) ? null : json_decode($request->$attribute, true);
         });
-
-        $this->withMeta([
-            'max' => $this->max,
-            'items' => $this->items,
-            'listFirst' => $this->listFirst,
-            'inputType' => $this->inputType,
-            'draggable' => $this->draggable,
-            'fullWidth' => $this->fullWidth,
-            'maxHeight' => $this->maxHeight,
-            'placeholder' => $this->placeholder,
-            'hideCreateButton' => $this->hideCreateButton,
-            'createButtonValue' => $this->createButtonValue,
-            'deleteButtonValue' => $this->deleteButtonValue,
-            'detailItemComponent' => $this->detailItemComponent,
-            'allowPastingMultiple' => $this->allowPastingMultiple,
-            'trimCharacters' => $this->trimCharacters,
-        ]);
     }
 
     public function rules($rules)
@@ -54,7 +37,7 @@ class Items extends Field
             abort(500, 'Nova Items Field requires array of validation rules');
         }
 
-        $this->rules = [ new ArrayRules($rules) ];
+        $this->rules = [new ArrayRules($rules)];
 
         return $this;
     }
@@ -157,5 +140,26 @@ class Items extends Field
         $this->trimCharacters = $array;
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return array_merge(parent::jsonSerialize(),
+            [
+                'max' => $this->max,
+                'items' => $this->items,
+                'listFirst' => $this->listFirst,
+                'inputType' => $this->inputType,
+                'draggable' => $this->draggable,
+                'fullWidth' => $this->fullWidth,
+                'maxHeight' => $this->maxHeight,
+                'placeholder' => $this->placeholder,
+                'hideCreateButton' => $this->hideCreateButton,
+                'createButtonValue' => $this->createButtonValue,
+                'deleteButtonValue' => $this->deleteButtonValue,
+                'detailItemComponent' => $this->detailItemComponent,
+                'allowPastingMultiple' => $this->allowPastingMultiple,
+                'trimCharacters' => $this->trimCharacters,
+            ]);
     }
 }
