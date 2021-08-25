@@ -73,6 +73,10 @@
                     class="btn btn-default btn-primary ml-3 cursor-pointer"
                 />
             </div>
+            <div v-if="globalError"
+                 class="help-text error-text -mt-2 text-danger py-2">
+                <p v-html="globalError"/>
+            </div>
         </template>
     </default-field>
 </template>
@@ -117,7 +121,8 @@ export default {
             value: '',
             items: [],
             newItem: '',
-            arrayErrors: []
+            arrayErrors: [],
+            globalError: null,
         }
     },
 
@@ -173,8 +178,7 @@ export default {
             })
         },
 
-        prepareItem(item)
-        {
+        prepareItem(item) {
             item = item.trim()
 
             if (!this.field.trimCharacters.length) {
@@ -222,7 +226,12 @@ export default {
         'errors': {
             handler: function (errors) {
                 if (errors.errors.hasOwnProperty(this.field.attribute)) {
-                    this.arrayErrors = errors.errors[this.field.attribute][0]
+                    const allErrors = errors.errors[this.field.attribute][0]
+
+                    this.arrayErrors = allErrors
+                    this.globalError = allErrors.hasOwnProperty(this.field.attribute)
+                        ? allErrors[this.field.attribute][0]
+                        : null;
                 }
             },
             deep: true
