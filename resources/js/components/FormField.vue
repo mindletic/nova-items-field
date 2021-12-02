@@ -186,7 +186,8 @@ export default {
             }
 
             this.field.trimCharacters.forEach((char) => {
-                item = item.replaceAll(char, '');
+                var regExp = new RegExp(char,"g");
+                item = item.replace(regExp, '');
             })
 
             return item
