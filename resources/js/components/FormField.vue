@@ -227,7 +227,7 @@ export default {
         'errors': {
             handler: function (errors) {
                 if (errors.errors.hasOwnProperty(this.field.attribute)) {
-                    const allErrors = errors.errors[this.field.attribute][0]
+                    const allErrors = JSON.parse(errors.errors[this.field.attribute][0])
 
                     this.arrayErrors = allErrors
                     this.globalError = allErrors.hasOwnProperty(this.field.attribute)

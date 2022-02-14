@@ -7,6 +7,7 @@ use Illuminate\Contracts\Validation\Rule;
 class ArrayRules implements Rule
 {
     public $rules = [];
+    public array $message;
 
     /**
      * Create a new rule instance.
@@ -31,7 +32,7 @@ class ArrayRules implements Rule
 
         $validator = \Validator::make($input, $this->rules, [], [ "$attribute.*" => 'input']);
 
-        $this->message = $validator->errors();
+        $this->message = $validator->errors()->toArray();
 
         return $validator->passes();
     }
@@ -43,6 +44,6 @@ class ArrayRules implements Rule
      */
     public function message()
     {
-        return $this->message;
+        return json_encode($this->message);
     }
 }

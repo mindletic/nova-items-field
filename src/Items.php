@@ -8,7 +8,7 @@ class Items extends Field
 {
     public $items = [];
     public $component = 'nova-items-field';
-    public $placeholder = "Add a new item";
+    public string $placeholder = "Add a new item";
     public $inputType = 'text';
     public $max = false;
     public $fullWidth = false;
