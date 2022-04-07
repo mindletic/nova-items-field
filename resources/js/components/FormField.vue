@@ -161,7 +161,8 @@ export default {
 
             event.preventDefault();
             const value = event.clipboardData.getData('text')
-            const items = value.split("\n");
+            const regex = new RegExp("[\n" + this.field.trimCharacters.join('') + "]+", "g");
+            const items = value.split(regex);
 
             items.forEach((item) => {
                 item = this.prepareItem(item)
@@ -180,15 +181,6 @@ export default {
 
         prepareItem(item) {
             item = item.trim()
-
-            if (!this.field.trimCharacters.length) {
-                return item
-            }
-
-            this.field.trimCharacters.forEach((char) => {
-                var regExp = new RegExp(char,"g");
-                item = item.replace(regExp, '');
-            })
 
             return item
         },
